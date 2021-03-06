@@ -1,10 +1,11 @@
-package com.course.system.service.Impl;
+package com.course.server.service.Impl;
 
-import com.course.system.domain.Test;
-import com.course.system.mapper.TestMapper;
-import com.course.system.service.TestService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.course.server.domain.Test;
+import com.course.server.mapper.TestMapper;
+import com.course.server.service.TestService;
 
 import java.util.List;
 

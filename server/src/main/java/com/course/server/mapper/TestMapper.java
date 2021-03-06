@@ -1,4 +1,4 @@
-package com.course.system.mapper;
+package com.course.server.mapper;
 
 import com.course.system.domain.Test;
 

@@ -1,6 +1,7 @@
-package com.course.system.service;
+package com.course.server.service;
 
-import com.course.system.domain.Test;
+
+import com.course.server.domain.Test;
 
 import java.util.List;
 
