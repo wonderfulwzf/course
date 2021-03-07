@@ -22,6 +22,6 @@ public class TestService {
      * 返回列表
      */
     public List<Test> list() {
-        return testMapper.list();
+        return testMapper.selectByExample(null);
     }
 }
