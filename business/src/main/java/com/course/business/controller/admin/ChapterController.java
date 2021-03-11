@@ -14,7 +14,7 @@ import java.util.List;
  * @data 2021/3/6 13:38
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/chapter")
 public class ChapterController {
 
     @Autowired
