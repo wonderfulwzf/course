@@ -23,7 +23,7 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/course"
                         userId="root"
-                        password="root">
+                        password="wangzhifang">
         </jdbcConnection>
 
         <!-- domain类的位置 -->
@@ -39,8 +39,8 @@
                              targetPackage="com.course.server.mapper"
                              type="XMLMAPPER" />
 
-        <table tableName="test" domainObjectName="Test"/>
-<!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
+<!--        <table tableName="test" domainObjectName="Test"/>-->
+        <table tableName="chapter" domainObjectName="Chapter"/>
 <!--        <table tableName="section" domainObjectName="Section"/>-->
 <!--        <table tableName="course" domainObjectName="Course"/>-->
 <!--        <table tableName="course_content" domainObjectName="CourseContent"/>-->
