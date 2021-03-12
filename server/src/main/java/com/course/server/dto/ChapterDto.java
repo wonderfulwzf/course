@@ -1,8 +1,10 @@
 package com.course.server.dto;
 
+import com.course.server.common.PageQuery;
+
 import java.io.Serializable;
 
-public class ChapterDto implements Serializable {
+public class ChapterDto extends PageQuery implements Serializable {
     private static final long serialVersionUID = -8345210228275643333L;
     private String id;
 

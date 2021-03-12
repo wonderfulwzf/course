@@ -1,6 +1,7 @@
 package com.course.server.service;
 
 
+import com.course.server.common.Page;
 import com.course.server.domain.Chapter;
 import com.course.server.dto.ChapterDto;
 import com.course.server.mapper.ChapterMapper;
@@ -26,13 +27,15 @@ public class ChapterService {
     /**
      * 返回列表
      */
-    public List<ChapterDto> list() {
-        PageHelper.startPage(1,1);
+    public void list(Page page) {
+        PageHelper.startPage((int)page.getCurrentPage(),(int)page.getPageSize());
         List<Chapter> chapters = chapterMapper.selectByExample(null);
         //stream
-        return chapters.stream().map(chapter -> {
+        List<ChapterDto> collect = chapters.stream().map(chapter -> {
             ChapterDto chapterDto = new ChapterDto();
-            return CopierUtil.copyProperties(chapter,chapterDto);
+            return CopierUtil.copyProperties(chapter, chapterDto);
         }).collect(Collectors.toList());
+        page.setRecords(collect);
+        page.setTotalRecord(collect.size());
     }
 }
