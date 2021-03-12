@@ -38,4 +38,13 @@ public class ChapterService {
         page.setRecords(collect);
         page.setTotalRecord(collect.size());
     }
+
+    /**
+     * 新增大章
+     */
+    public void add(ChapterDto chapterDto) {
+        Chapter chapter = new Chapter();
+        CopierUtil.copyProperties(chapterDto,chapter);
+        chapterMapper.insert(chapter);
+    }
 }

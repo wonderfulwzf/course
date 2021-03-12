@@ -2,6 +2,7 @@ package com.course.business.controller.admin;
 
 
 import com.course.server.common.Page;
+import com.course.server.dto.ChapterDto;
 import com.course.server.service.ChapterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +26,20 @@ public class ChapterController {
     @Autowired
     private ChapterService chapterService;
 
-
+    /**
+    * @description: 查询大章列表
+    * @author wangzhifang
+    * @createTime：2021/3/12 20:28
+    */
     @RequestMapping("/list")
     public Page chapterList(@RequestBody Page page){
         chapterService.list(page);
         return page;
+    }
+
+    @RequestMapping("/add")
+    public void chapterList(@RequestBody ChapterDto chapterDto){
+        chapterDto.setId("100000000");
+        chapterService.add(chapterDto);
     }
 }
