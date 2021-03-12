@@ -5,6 +5,7 @@ import com.course.server.domain.Chapter;
 import com.course.server.dto.ChapterDto;
 import com.course.server.mapper.ChapterMapper;
 import com.course.server.utils.CopierUtil;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class ChapterService {
      * 返回列表
      */
     public List<ChapterDto> list() {
+        PageHelper.startPage(1,1);
         List<Chapter> chapters = chapterMapper.selectByExample(null);
         //stream
         return chapters.stream().map(chapter -> {
