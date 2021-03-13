@@ -21,7 +21,7 @@ public class BusinessApplication {
 		SpringApplication app = new SpringApplication(BusinessApplication.class);
 		Environment environment = app.run(args).getEnvironment();
 		LOG.info("启动成功！！");
-		LOG.info("system地址:\thttp:127.0.0.1:{}",environment.getProperty("server.port"));
+		LOG.info("business:\thttp:127.0.0.1:{}",environment.getProperty("server.port"));
 
 	}
 
