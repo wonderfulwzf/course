@@ -23,7 +23,7 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/course"
                         userId="root"
-                        password="wangzhifang">
+                        password="root">
         </jdbcConnection>
 
         <!-- domain类的位置 -->

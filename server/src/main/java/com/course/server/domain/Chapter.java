@@ -1,6 +1,10 @@
 package com.course.server.domain;
 
-public class Chapter {
+import java.io.Serializable;
+
+public class Chapter implements Serializable {
+
+    private static final long serialVersionUID = -5054547965252920859L;
     private String id;
 
     private String courseId;
