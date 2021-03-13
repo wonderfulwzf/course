@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +29,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin/chapter")
 public class ChapterController {
     /**
-     * 日志
+     * 日志BUSINESS_NAME
      */
     private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
+
+    public static final String BUSINESS_NAME = "大章";
 
     @Autowired
     private ChapterService chapterService;
@@ -76,6 +79,13 @@ public class ChapterController {
         }
         chapterService.update(chapterDto);
         return rest.resultSuccess("添加大章成功");
+    }
+
+    @RequestMapping("/delete/{id}")
+    public Rest delete(@PathVariable String id){
+        Rest rest = new Rest();
+        chapterService.delete(id);
+        return rest.resultSuccess("删除大章成功");
     }
 
 

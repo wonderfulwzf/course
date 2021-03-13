@@ -58,4 +58,10 @@ public class ChapterService {
         CopierUtil.copyProperties(chapterDto,chapter);
         chapterMapper.updateByPrimaryKey(chapter);
     }
+    /**
+     * 删除大章
+     */
+    public void delete(String id) {
+        chapterMapper.deleteByPrimaryKey(id);
+    }
 }
