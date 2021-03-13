@@ -12,6 +12,7 @@ import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,12 +61,23 @@ public class ChapterController {
     }
 
     @RequestMapping("/save")
-    public Rest chapterList(@RequestBody ChapterDto chapterDto){
+    public Rest save(@RequestBody ChapterDto chapterDto){
         Rest rest = new Rest();
         chapterDto.setId(UuidUtil.getShortUuid());
         chapterService.save(chapterDto);
         return rest.resultSuccess("添加大章成功");
     }
+
+    @RequestMapping("/update")
+    public Rest update(@RequestBody ChapterDto chapterDto){
+        Rest rest = new Rest();
+        if(!StringUtils.hasText(chapterDto.getId())){
+            return rest.resultSuccess("添加大章失败");
+        }
+        chapterService.update(chapterDto);
+        return rest.resultSuccess("添加大章成功");
+    }
+
 
     @RequestMapping("/test")
     public String test(){

@@ -50,4 +50,12 @@ public class ChapterService {
         CopierUtil.copyProperties(chapterDto,chapter);
         chapterMapper.insert(chapter);
     }
+    /**
+     * 新增大章
+     */
+    public void update(ChapterDto chapterDto) {
+        Chapter chapter = new Chapter();
+        CopierUtil.copyProperties(chapterDto,chapter);
+        chapterMapper.updateByPrimaryKey(chapter);
+    }
 }
