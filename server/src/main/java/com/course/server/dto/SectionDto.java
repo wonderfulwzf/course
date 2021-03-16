@@ -1,9 +1,9 @@
-package com.course.server.domain;
+package com.course.server.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Section implements Serializable {
+public class SectionDto implements Serializable {
     private static final long serialVersionUID = 1776569841954404471L;
     private String id;
 

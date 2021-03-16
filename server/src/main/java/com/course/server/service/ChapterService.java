@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 王智芳
@@ -29,33 +30,33 @@ public class ChapterService {
     /**
      * 返回列表
      */
-    public Page<Chapter> list(ChapterParams chapterParams) {
-        Page<Chapter> page = new Page<>();
-        PageHelper.startPage((int)chapterParams.getCurrentPage(),(int)chapterParams.getPageSize());
+    public Page<ChapterDto> list(ChapterParams chapterParams) {
+
+        PageHelper.startPage((int)chapterParams.getPageNo(),(int)chapterParams.getPageSize());
         //查询参数
         ChapterExample chapterExample = new ChapterExample();
         List<Chapter> chapters = chapterMapper.selectByExample(chapterExample);
         PageInfo<Chapter> chapterPageInfo = new PageInfo<>(chapters);
-        page.setTotalRecord(chapterPageInfo.getTotal());
-        //获得数据
-        page.setRecords(chapters);
-        return page;
+
+        if(chapters==null){
+            return new Page<>(chapterParams.getPageNo(),chapterParams.getPageSize());
+        }
+        List<ChapterDto> chapterDtos = chapters.stream().map(chapter ->
+                CopierUtil.copyProperties(chapter,new ChapterDto())).collect(Collectors.toList());
+        return new Page<>(chapterParams.getPageNo(),chapterParams.getPageSize(),chapterPageInfo.getTotal(),chapterDtos);
     }
 
     /**
      * 新增大章
      */
-    public void save(ChapterDto chapterDto) {
-        Chapter chapter = new Chapter();
-        CopierUtil.copyProperties(chapterDto,chapter);
+    public void save(Chapter chapter) {
         chapterMapper.insert(chapter);
     }
+
     /**
-     * 新增大章
+     * 更新大章
      */
-    public void update(ChapterDto chapterDto) {
-        Chapter chapter = new Chapter();
-        CopierUtil.copyProperties(chapterDto,chapter);
+    public void update(Chapter chapter) {
         chapterMapper.updateByPrimaryKey(chapter);
     }
     /**

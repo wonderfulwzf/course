@@ -9,6 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <start-class>com.course.generator.GeneratorApplication</start-class>
+    </properties>
     <artifactId>generator</artifactId>
 
     <dependencies>

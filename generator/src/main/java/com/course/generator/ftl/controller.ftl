@@ -1,12 +1,12 @@
-package com.course.business.controller.admin;
+package com.course.${module}.controller.admin;
 
 
 import com.course.server.common.Page;
 import com.course.server.common.Rest;
-import com.course.server.domain.Chapter;
-import com.course.server.dto.ChapterDto;
-import com.course.server.param.ChapterParams;
-import com.course.server.service.ChapterService;
+import com.course.server.domain.${Domain};
+import com.course.server.dto.${Domain}Dto;
+import com.course.server.param.${Domain}Params;
+import com.course.server.service.${Domain}Service;
 import com.course.server.utils.CopierUtil;
 import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
@@ -23,17 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @data 2021/3/6 13:38
  */
 @RestController
-@RequestMapping("/admin/chapter")
-public class ChapterController {
+@RequestMapping("/admin/${domain}")
+public class ${Domain}Controller {
     /**
      * 日志BUSINESS_NAME
      */
-    private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);
 
-    public static final String BUSINESS_NAME = "大章";
+    public static final String BUSINESS_NAME = "${tableNameCn}";
 
     @Autowired
-    private ChapterService chapterService;
+    private ${Domain}Service ${domain}Service;
 
     /**
     * @description: 查询大章列表
@@ -41,9 +41,9 @@ public class ChapterController {
     * @createTime：2021/3/12 20:28
     */
     @RequestMapping("/list")
-    public Rest<Page<ChapterDto>> chapterList(@RequestBody ChapterParams page){
-        Rest<Page<ChapterDto>> rest = new Rest<>();
-        Page<ChapterDto> list = chapterService.list(page);
+    public Rest<Page<${Domain}Dto>> ${domain}List(@RequestBody ${Domain}Params page){
+        Rest<Page<${Domain}Dto>> rest = new Rest<>();
+        Page<${Domain}Dto> list = ${domain}Service.list(page);
         if(list==null||list.getRecords()==null){
             return rest.resultSuccess("数据为空",new Page<>(page.getPageNo(),page.getPageSize()));
         }
@@ -51,29 +51,29 @@ public class ChapterController {
     }
 
     @RequestMapping("/save")
-    public Rest save(@RequestBody ChapterDto chapterDto){
+    public Rest save(@RequestBody ${Domain}Dto ${domain}Dto){
         Rest rest = new Rest();
-        chapterDto.setId(UuidUtil.getShortUuid());
-        Chapter chapter = new Chapter();
-        chapterService.save(CopierUtil.copyProperties(chapterDto,chapter));
+        ${domain}Dto.setId(UuidUtil.getShortUuid());
+        ${Domain} ${domain} = new ${Domain}();
+        ${domain}Service.save(CopierUtil.copyProperties(${domain}Dto,${domain}));
         return rest.resultSuccess("添加大章成功");
     }
 
     @RequestMapping("/update")
-    public Rest update(@RequestBody ChapterDto chapterDto){
+    public Rest update(@RequestBody ${Domain}Dto ${domain}Dto){
         Rest rest = new Rest();
-        if(!StringUtils.hasText(chapterDto.getId())){
+        if(!StringUtils.hasText(${domain}Dto.getId())){
             return rest.resultSuccess("添加大章失败");
         }
-        Chapter chapter = new Chapter();
-        chapterService.update(CopierUtil.copyProperties(chapterDto,chapter));
+        ${Domain} ${domain} = new ${Domain}();
+        ${domain}Service.update(CopierUtil.copyProperties(${domain}Dto,${domain}));
         return rest.resultSuccess("添加大章成功");
     }
 
     @RequestMapping("/delete/{id}")
     public Rest delete(@PathVariable String id){
         Rest rest = new Rest();
-        chapterService.delete(id);
+        ${domain}Service.delete(id);
         return rest.resultSuccess("删除大章成功");
     }
 

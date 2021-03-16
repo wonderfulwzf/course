@@ -1,29 +1,31 @@
 package com.course.server.param;
 
-import java.io.Serializable;
-
 /**
  * @author 王智芳
  * @data 2021/3/13 13:20
  */
-public class ChapterParams implements Serializable {
+public class ChapterParams  {
 
-    private static final long serialVersionUID = 8114716282770806719L;
+    private String id;
+
+    private String courseId;
+
+    private String name;
     /**
      * 当前返回的数据是第几页的数据
      */
-    private long currentPage;
+    private long pageNo;
     /**
      * 当前的分页大小(非必须)
      */
     private long pageSize;
 
-    public long getCurrentPage() {
-        return currentPage;
+    public long getPageNo() {
+        return pageNo;
     }
 
-    public void setCurrentPage(long currentPage) {
-        this.currentPage = currentPage;
+    public void setPageNo(long pageNo) {
+        this.pageNo = pageNo;
     }
 
     public long getPageSize() {
@@ -32,5 +34,29 @@ public class ChapterParams implements Serializable {
 
     public void setPageSize(long pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

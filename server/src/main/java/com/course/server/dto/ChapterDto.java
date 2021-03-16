@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ChapterDto implements Serializable {
 
+    private static final long serialVersionUID = -8345210228275643333L;
     private String id;
 
     private String courseId;

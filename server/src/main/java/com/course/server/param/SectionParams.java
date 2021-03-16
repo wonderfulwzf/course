@@ -1,9 +1,9 @@
-package com.course.server.domain;
+package com.course.server.param;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Section implements Serializable {
+public class SectionParams implements Serializable {
     private static final long serialVersionUID = 1776569841954404471L;
     private String id;
 
@@ -24,6 +24,10 @@ public class Section implements Serializable {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private long pageNo;
+
+    private long pageSize;
 
     public String getId() {
         return id;
@@ -103,6 +107,22 @@ public class Section implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public long getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(long pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public long getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(long pageSize) {
+        this.pageSize = pageSize;
     }
 
     @Override
