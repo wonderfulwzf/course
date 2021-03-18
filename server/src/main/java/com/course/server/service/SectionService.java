@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author 王智�?
+ * @author 王智芳
  * @data 2021/3/6 14:38
  */
-@SuppressWarnings("LossyEncoding")
 @Service
 public class SectionService {
 

@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author 鐜嬫櫤鑺?
+ * @author 王智芳
  * @data 2021/3/6 13:38
  */
 @RestController
 @RequestMapping("/admin/section")
 public class SectionController {
     /**
-     * 鏃ュ織BUSINESS_NAME
+     * 日志BUSINESS_NAME
      */
     private static final Logger LOG = LoggerFactory.getLogger(SectionController.class);
 
@@ -36,16 +36,16 @@ public class SectionController {
     private SectionService sectionService;
 
     /**
-    * @description: 鏌ヨ澶х珷鍒楄〃
+    * @description: 查询大章列表
     * @author wangzhifang
-    * @createTime锛?2021/3/12 20:28
+    * @createTime：2021/3/12 20:28
     */
     @RequestMapping("/list")
     public Rest<Page<SectionDto>> sectionList(@RequestBody SectionParams page){
         Rest<Page<SectionDto>> rest = new Rest<>();
         Page<SectionDto> list = sectionService.list(page);
         if(list==null||list.getRecords()==null){
-            return rest.resultSuccess("鏁版嵁涓虹┖",new Page<>(page.getPageNo(),page.getPageSize()));
+            return rest.resultSuccess("数据为空",new Page<>(page.getPageNo(),page.getPageSize()));
         }
         return rest.resultSuccessInfo(new Page<>(page.getPageSize(),page.getPageSize(),list.getTotalRecord(),list.getRecords()));
     }
@@ -56,25 +56,25 @@ public class SectionController {
         sectionDto.setId(UuidUtil.getShortUuid());
         Section section = new Section();
         sectionService.save(CopierUtil.copyProperties(sectionDto,section));
-        return rest.resultSuccess("娣诲姞澶х珷鎴愬姛");
+        return rest.resultSuccess("添加大章成功");
     }
 
     @RequestMapping("/update")
     public Rest update(@RequestBody SectionDto sectionDto){
         Rest rest = new Rest();
         if(!StringUtils.hasText(sectionDto.getId())){
-            return rest.resultSuccess("娣诲姞澶х珷澶辫触");
+            return rest.resultSuccess("添加大章失败");
         }
         Section section = new Section();
         sectionService.update(CopierUtil.copyProperties(sectionDto,section));
-        return rest.resultSuccess("娣诲姞澶х珷鎴愬姛");
+        return rest.resultSuccess("添加大章成功");
     }
 
     @RequestMapping("/delete/{id}")
     public Rest delete(@PathVariable String id){
         Rest rest = new Rest();
         sectionService.delete(id);
-        return rest.resultSuccess("鍒犻櫎澶х珷鎴愬姛");
+        return rest.resultSuccess("删除大章成功");
     }
 
 

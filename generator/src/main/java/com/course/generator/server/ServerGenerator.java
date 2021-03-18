@@ -1,6 +1,7 @@
 package com.course.generator.server;
 
 
+import com.course.generator.utils.DbUtil;
 import com.course.generator.utils.Field;
 import com.course.generator.utils.FreemarkerUtil;
 
@@ -18,16 +19,24 @@ public class ServerGenerator {
         String Domain = "Section";
         String domain = "section";
         String tableNameCn = "小节";
+        List<Field> fieldList = DbUtil.getColumnByTableName(domain);
+        Set<String> typeSet = getJavaTypes(fieldList);
         Map<String,Object> map = new HashMap<>();
         map.put("Domain",Domain);
         map.put("domain",domain);
         map.put("tableNameCn",tableNameCn);
         map.put("module",module);
-        FreemarkerUtil.initConfig("service.ftl");
-        FreemarkerUtil.generator(toServicePath+Domain+"Service.java",map);
-
-        FreemarkerUtil.initConfig("controller.ftl");
-        FreemarkerUtil.generator(toControllerPath+Domain+"Controller.java",map);
+        map.put("fieldList",fieldList);
+        map.put("typeSet",typeSet);
+        //生成service代码
+        //FreemarkerUtil.initConfig("service.ftl");
+        //FreemarkerUtil.generator(toServicePath+Domain+"Service.java",map);
+        //生成controller代码
+        //FreemarkerUtil.initConfig("controller.ftl");
+        //FreemarkerUtil.generator(toControllerPath+Domain+"Controller.java",map);
+        //生成Dto代码
+        FreemarkerUtil.initConfig("dto.ftl");
+        FreemarkerUtil.generator(toDtoPath+Domain+"Dto.java",map);
     }
 
     /**
