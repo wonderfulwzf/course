@@ -12,7 +12,7 @@ import java.util.*;
 
 public class VueGenerator {
     static String MODULE = "business";
-    static String toVuePath = "admin\\src\\views\\admin\\";
+    static String toVuePath = "C:\\Users\\80504\\Desktop\\course-vue\\admin\\src\\views\\admin\\";
     static String generatorConfigPath = "server\\src\\main\\resources\\generator\\generatorConfig.xml";
 
     public static void main(String[] args) throws Exception {
@@ -40,6 +40,7 @@ public class VueGenerator {
 
         List<Field> fieldList = DbUtil.getColumnByTableName(tableName);
         Set<String> typeSet = getJavaTypes(fieldList);
+
         Map<String, Object> map = new HashMap<>();
         map.put("Domain", Domain);
         map.put("domain", domain);
@@ -50,7 +51,7 @@ public class VueGenerator {
 
         // 生成vue
         FreemarkerUtil.initConfig("vue.ftl");
-        FreemarkerUtil.generator(toVuePath + domain + ".vue", map);
+        FreemarkerUtil.generator(toVuePath + Domain + ".vue", map);
     }
 
     /**
