@@ -62,19 +62,23 @@
                     <div class="modal-body">
                         <!-- 新增表单 -->
                         <form class="form-horizontal">
-                            <div class="form-group">
+
                                 <#list fieldList as field>
-                                    <label class="col-sm-2 control-label">${field.nameCn}</label>
-                                    <div class="col-sm-10">
+                                    <div class="form-group">
+                                     <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
+                                        <label class="col-sm-2 control-label">${field.nameCn}</label>
+                                        <div class="col-sm-10">
                                         <input
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="${field.nameCn}"
                                                 v-model="${domain}.${field.nameHump}"
                                         />
-                                    </div>
+                                        </div>
+                                     </#if>
+                                     </div>
                                 </#list>
-                            </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -111,19 +115,21 @@
                     <div class="modal-body">
                         <!-- 修改表单 -->
                         <form class="form-horizontal">
-                            <div class="form-group">
                                 <#list fieldList as field>
-                                    <label class="col-sm-2 control-label">${field.nameCn}</label>
-                                    <div class="col-sm-10">
-                                        <input
-                                                type="text"
-                                                class="form-control"
-                                                placeholder="${field.nameCn}"
-                                                v-model="${domain}.${field.nameHump}"
-                                        />
-                                    </div>
-                                </#list>
-                            </div>
+                                <div class="form-group">
+                                     <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
+                                      <label class="col-sm-2 control-label">${field.nameCn}</label>
+                                      <div class="col-sm-10">
+                                          <input
+                                                  type="text"
+                                                  class="form-control"
+                                                  placeholder="${field.nameCn}"
+                                                  v-model="${domain}.${field.nameHump}"
+                                          />
+                                      </div>
+                                 </#if>
+                                </div>
+                              </#list>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -200,6 +206,22 @@
             //${tableNameCn}保存
             save() {
                 let _this = this;
+                // 保存校验
+                if (1 != 1
+                    <#list fieldList as field>
+                    <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
+                    <#if !field.nullAble>
+                    || !Validator.require(_this.${domain}.${field.nameHump}, "${field.nameCn}")
+                    </#if>
+                    <#if (field.length > 0)>
+                    || !Validator.length(_this.${domain}.${field.nameHump}, "${field.nameCn}", 1, ${field.length?c})
+                    </#if>
+                    </#if>
+                    </#list>
+                ) {
+                    return;
+                }
+                Loading.show();
                 _this.$ajax
                     .post(
                         process.env.VUE_APP_SERVER+"/business/admin/${domain}/save",

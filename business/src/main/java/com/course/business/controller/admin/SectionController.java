@@ -36,7 +36,7 @@ public class SectionController {
     private SectionService sectionService;
 
     /**
-    * @description: 查询大章列表
+    * @description: 查询小节列表
     * @author wangzhifang
     * @createTime：2021/3/12 20:28
     */
@@ -56,25 +56,25 @@ public class SectionController {
         sectionDto.setId(UuidUtil.getShortUuid());
         Section section = new Section();
         sectionService.save(CopierUtil.copyProperties(sectionDto,section));
-        return rest.resultSuccess("添加大章成功");
+        return rest.resultSuccess("添加小节成功");
     }
 
     @RequestMapping("/update")
     public Rest update(@RequestBody SectionDto sectionDto){
         Rest rest = new Rest();
         if(!StringUtils.hasText(sectionDto.getId())){
-            return rest.resultSuccess("添加大章失败");
+            return rest.resultSuccess("添加小节失败");
         }
         Section section = new Section();
         sectionService.update(CopierUtil.copyProperties(sectionDto,section));
-        return rest.resultSuccess("添加大章成功");
+        return rest.resultSuccess("添加小节成功");
     }
 
     @RequestMapping("/delete/{id}")
     public Rest delete(@PathVariable String id){
         Rest rest = new Rest();
         sectionService.delete(id);
-        return rest.resultSuccess("删除大章成功");
+        return rest.resultSuccess("删除小节成功");
     }
 
 
