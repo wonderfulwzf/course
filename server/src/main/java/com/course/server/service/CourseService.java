@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,8 @@ public class CourseService {
      * 新增大章
      */
     public void save(Course course) {
+        course.setCreatedAt(new Date());
+        course.setUpdatedAt(new Date());
         courseMapper.insert(course);
     }
 
@@ -57,6 +60,7 @@ public class CourseService {
      * 更新大章
      */
     public void update(Course course) {
+        course.setUpdatedAt(new Date());
         courseMapper.updateByPrimaryKey(course);
     }
     /**
