@@ -10,6 +10,7 @@ import com.course.server.param.SectionParams;
 import com.course.server.utils.CopierUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,17 @@ public class SectionService {
         PageHelper.startPage((int)sectionParams.getPageNo(),(int)sectionParams.getPageSize());
         //查询参数
         SectionExample sectionExample = new SectionExample();
+        SectionExample.Criteria criteria = sectionExample.createCriteria();
+        //对课程id判空
+        if (!StringUtils.isEmpty(sectionParams.getCourseId())) {
+            criteria.andCourseIdEqualTo(sectionParams.getCourseId());
+        }
+        //对大章id判空
+        if (!StringUtils.isEmpty(sectionParams.getChapterId())) {
+            criteria.andChapterIdEqualTo(sectionParams.getChapterId());
+        }
         List<Section> sections = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> sectionPageInfo = new PageInfo<>(sections);
-
         if(sections==null){
             return new Page<>(sectionParams.getPageNo(),sectionParams.getPageSize());
         }
