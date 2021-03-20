@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sunmary" jdbcType="VARCHAR" property="sunmary" />
     <result column="time" jdbcType="INTEGER" property="time" />
-    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="level" jdbcType="CHAR" property="level" />
     <result column="charge" jdbcType="CHAR" property="charge" />
@@ -115,7 +115,7 @@
       sort, created_at, updated_at
       )
     values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{sunmary,jdbcType=VARCHAR}, 
-      #{time,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{image,jdbcType=VARCHAR}, 
+      #{time,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR}, 
       #{level,jdbcType=CHAR}, #{charge,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{enroll,jdbcType=INTEGER}, 
       #{sort,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
       )
@@ -177,7 +177,7 @@
         #{time,jdbcType=INTEGER},
       </if>
       <if test="price != null">
-        #{price,jdbcType=DOUBLE},
+        #{price,jdbcType=DECIMAL},
       </if>
       <if test="image != null">
         #{image,jdbcType=VARCHAR},
@@ -227,7 +227,7 @@
         `time` = #{record.time,jdbcType=INTEGER},
       </if>
       <if test="record.price != null">
-        price = #{record.price,jdbcType=DOUBLE},
+        price = #{record.price,jdbcType=DECIMAL},
       </if>
       <if test="record.image != null">
         image = #{record.image,jdbcType=VARCHAR},
@@ -264,7 +264,7 @@
       `name` = #{record.name,jdbcType=VARCHAR},
       sunmary = #{record.sunmary,jdbcType=VARCHAR},
       `time` = #{record.time,jdbcType=INTEGER},
-      price = #{record.price,jdbcType=DOUBLE},
+      price = #{record.price,jdbcType=DECIMAL},
       image = #{record.image,jdbcType=VARCHAR},
       `level` = #{record.level,jdbcType=CHAR},
       charge = #{record.charge,jdbcType=CHAR},
@@ -290,7 +290,7 @@
         `time` = #{time,jdbcType=INTEGER},
       </if>
       <if test="price != null">
-        price = #{price,jdbcType=DOUBLE},
+        price = #{price,jdbcType=DECIMAL},
       </if>
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
@@ -324,7 +324,7 @@
     set `name` = #{name,jdbcType=VARCHAR},
       sunmary = #{sunmary,jdbcType=VARCHAR},
       `time` = #{time,jdbcType=INTEGER},
-      price = #{price,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DECIMAL},
       image = #{image,jdbcType=VARCHAR},
       `level` = #{level,jdbcType=CHAR},
       charge = #{charge,jdbcType=CHAR},

@@ -1,5 +1,6 @@
 package com.course.server.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Course {
@@ -11,7 +12,7 @@ public class Course {
 
     private Integer time;
 
-    private Double price;
+    private BigDecimal price;
 
     private String image;
 
@@ -61,11 +62,11 @@ public class Course {
         this.time = time;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

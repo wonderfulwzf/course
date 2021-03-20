@@ -3,6 +3,7 @@ package com.course.server.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CourseDto implements Serializable{
@@ -30,7 +31,7 @@ public class CourseDto implements Serializable{
     /**
      * 价格(元)
      */
-    private String price;
+    private BigDecimal price;
 
     /**
      * 封面
@@ -106,11 +107,11 @@ public class CourseDto implements Serializable{
         this.time = time;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
