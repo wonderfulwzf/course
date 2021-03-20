@@ -10,6 +10,7 @@ import com.course.server.param.ChapterParams;
 import com.course.server.utils.CopierUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,11 @@ public class ChapterService {
         PageHelper.startPage((int)chapterParams.getPageNo(),(int)chapterParams.getPageSize());
         //查询参数
         ChapterExample chapterExample = new ChapterExample();
+        ChapterExample.Criteria criteria = chapterExample.createCriteria();
+        //对课程id判空
+        if (!StringUtils.isEmpty(chapterParams.getCourseId())) {
+            criteria.andCourseIdEqualTo(chapterParams.getCourseId());
+        }
         List<Chapter> chapters = chapterMapper.selectByExample(chapterExample);
         PageInfo<Chapter> chapterPageInfo = new PageInfo<>(chapters);
 
