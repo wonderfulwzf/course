@@ -51,6 +51,8 @@ public class SectionService {
      * 新增大章
      */
     public void save(Section section) {
+        section.setCreatedAt(new Date());
+        section.setUpdatedAt(new Date());
         sectionMapper.insert(section);
     }
 
