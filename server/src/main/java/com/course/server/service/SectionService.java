@@ -28,6 +28,9 @@ public class SectionService {
     @Autowired
     private SectionMapper sectionMapper;
 
+    @Autowired
+    private CourseService courseService;
+
 
     /**
      * 返回列表
@@ -63,6 +66,7 @@ public class SectionService {
         section.setCreatedAt(new Date());
         section.setUpdatedAt(new Date());
         sectionMapper.insert(section);
+        courseService.updateTime(section.getCourseId());
     }
 
     /**
@@ -71,6 +75,7 @@ public class SectionService {
     public void update(Section section) {
         section.setUpdatedAt(new Date());
         sectionMapper.updateByPrimaryKey(section);
+        courseService.updateTime(section.getCourseId());
     }
     /**
      * 删除大章
