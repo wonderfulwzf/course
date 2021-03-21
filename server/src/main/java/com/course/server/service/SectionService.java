@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -62,7 +63,8 @@ public class SectionService {
     /**
      * 新增大章
      */
-    public void save(Section section) {
+    @Transactional
+    public void save(Section section)  {
         section.setCreatedAt(new Date());
         section.setUpdatedAt(new Date());
         sectionMapper.insert(section);
@@ -72,6 +74,7 @@ public class SectionService {
     /**
      * 更新大章
      */
+    @Transactional
     public void update(Section section) {
         section.setUpdatedAt(new Date());
         sectionMapper.updateByPrimaryKey(section);
