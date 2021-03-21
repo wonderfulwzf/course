@@ -4,8 +4,10 @@ package com.course.business.controller.admin;
 import com.course.server.common.Page;
 import com.course.server.common.Rest;
 import com.course.server.domain.Course;
+import com.course.server.dto.CourseCategoryDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.param.CourseParams;
+import com.course.server.service.CourseCategoryService;
 import com.course.server.service.CourseService;
 import com.course.server.utils.CopierUtil;
 import com.course.server.utils.UuidUtil;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author 王智芳
@@ -34,6 +38,9 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private CourseCategoryService courseCategoryService;
 
     /**
     * @description: 查询课程列表
@@ -55,7 +62,7 @@ public class CourseController {
         Rest rest = new Rest();
         courseDto.setId(UuidUtil.getShortUuid());
         Course course = new Course();
-        courseService.save(CopierUtil.copyProperties(courseDto,course));
+        courseService.save(CopierUtil.copyProperties(courseDto,course),courseDto.getCategorys());
         return rest.resultSuccess("添加课程成功");
     }
 
@@ -63,11 +70,11 @@ public class CourseController {
     public Rest update(@RequestBody CourseDto courseDto){
         Rest rest = new Rest();
         if(!StringUtils.hasText(courseDto.getId())){
-            return rest.resultSuccess("添加课程失败");
+            return rest.resultSuccess("更新课程失败");
         }
         Course course = new Course();
-        courseService.update(CopierUtil.copyProperties(courseDto,course));
-        return rest.resultSuccess("添加课程成功");
+        courseService.update(CopierUtil.copyProperties(courseDto,course),courseDto.getCategorys());
+        return rest.resultSuccess("更新课程成功");
     }
 
     @RequestMapping("/delete/{id}")
@@ -77,6 +84,11 @@ public class CourseController {
         return rest.resultSuccess("删除课程成功");
     }
 
+    @RequestMapping("/category/list/{courseId}")
+    public Rest<List<CourseCategoryDto>> categoryList(@PathVariable String courseId){
+        Rest<List<CourseCategoryDto>> rest = new Rest();
+        return rest.resultSuccessInfo(courseCategoryService.listByCourseId(courseId));
+    }
 
     @RequestMapping("/test")
     public String test(){

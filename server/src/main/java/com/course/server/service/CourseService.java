@@ -4,6 +4,7 @@ package com.course.server.service;
 import com.course.server.common.Page;
 import com.course.server.domain.Course;
 import com.course.server.domain.CourseExample;
+import com.course.server.dto.CategoryDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.mapper.CourseMapper;
 import com.course.server.mapper.my.MyCourseMapper;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,9 @@ public class CourseService {
 
     @Autowired
     private MyCourseMapper myCourseMapper;
+
+    @Autowired
+    private CourseCategoryService courseCategoryService;
 
 
     /**
@@ -56,23 +61,29 @@ public class CourseService {
     }
 
     /**
-     * 新增大章
+     * 新增课程
      */
-    public void save(Course course) {
+    @Transactional
+    public void save(Course course, List<CategoryDto> categoryDtos) {
         course.setCreatedAt(new Date());
         course.setUpdatedAt(new Date());
         courseMapper.insert(course);
+        //批量保存课程分类
+        courseCategoryService.saveBatch(course.getId(),categoryDtos);
     }
 
     /**
-     * 更新大章
+     * 更新课程
      */
-    public void update(Course course) {
+    @Transactional
+    public void update(Course course,List<CategoryDto> categoryDtos) {
         course.setUpdatedAt(new Date());
         courseMapper.updateByPrimaryKey(course);
+        //批量保存课程分类
+        courseCategoryService.saveBatch(course.getId(),categoryDtos);
     }
     /**
-     * 删除大章
+     * 删除课程
      */
     public void delete(String id) {
         courseMapper.deleteByPrimaryKey(id);
@@ -85,5 +96,6 @@ public class CourseService {
         LOG.info("更新课程时长:{}",courseId);
         myCourseMapper.updateTime(courseId);
     }
+
 
 }
