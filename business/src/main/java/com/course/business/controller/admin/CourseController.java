@@ -6,6 +6,7 @@ import com.course.server.common.Rest;
 import com.course.server.domain.Course;
 import com.course.server.dto.CourseCategoryDto;
 import com.course.server.dto.CourseDto;
+import com.course.server.dto.SortDto;
 import com.course.server.param.CourseParams;
 import com.course.server.service.CourseCategoryService;
 import com.course.server.service.CourseService;
@@ -88,6 +89,14 @@ public class CourseController {
     public Rest<List<CourseCategoryDto>> categoryList(@PathVariable String courseId){
         Rest<List<CourseCategoryDto>> rest = new Rest();
         return rest.resultSuccessInfo(courseCategoryService.listByCourseId(courseId));
+    }
+
+    @RequestMapping("/sort")
+    public Rest sort(@RequestBody SortDto sortDto){
+        Rest rest = new Rest();
+        LOG.info("开始更新排序");
+        courseService.sort(sortDto);
+        return rest.resultSuccess("更新排序成功");
     }
 
     @RequestMapping("/test")

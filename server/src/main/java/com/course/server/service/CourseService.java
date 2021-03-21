@@ -6,6 +6,7 @@ import com.course.server.domain.Course;
 import com.course.server.domain.CourseExample;
 import com.course.server.dto.CategoryDto;
 import com.course.server.dto.CourseDto;
+import com.course.server.dto.SortDto;
 import com.course.server.mapper.CourseMapper;
 import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.param.CourseParams;
@@ -49,6 +50,7 @@ public class CourseService {
         PageHelper.startPage((int)courseParams.getPageNo(),(int)courseParams.getPageSize());
         //查询参数
         CourseExample courseExample = new CourseExample();
+        courseExample.setOrderByClause("sort asc");
         List<Course> courses = courseMapper.selectByExample(courseExample);
         PageInfo<Course> coursePageInfo = new PageInfo<>(courses);
 
@@ -97,5 +99,20 @@ public class CourseService {
         myCourseMapper.updateTime(courseId);
     }
 
+    /**
+     *  更新排序
+     */
+    @Transactional
+    public void sort(SortDto sortDto){
+        myCourseMapper.updateSort(sortDto);
+        // 如果排序值变大
+        if (sortDto.getNewSort() > sortDto.getOldSort()) {
+            myCourseMapper.moveSortsForward(sortDto);
+        }
 
+        // 如果排序值变小
+        if (sortDto.getNewSort() < sortDto.getOldSort()) {
+            myCourseMapper.moveSortsBackward(sortDto);
+        }
+    }
 }
