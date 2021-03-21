@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -64,8 +65,20 @@ public class CategoryService {
     /**
      * 删除大章
      */
+    @Transactional
     public void delete(String id) {
+        //判断是不是一级分类 是的话删除其子类
+        deletechildren(id);
         categoryMapper.deleteByPrimaryKey(id);
+    }
+
+    private void deletechildren(String id){
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        if("00000000".equals(category.getParent())){
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andParentEqualTo(category.getId());
+            categoryMapper.deleteByExample(categoryExample);
+        }
     }
 
     /**
