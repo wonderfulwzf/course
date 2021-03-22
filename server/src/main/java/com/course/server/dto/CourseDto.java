@@ -81,6 +81,11 @@ public class CourseDto implements Serializable{
      */
     private List<CategoryDto> categorys;
 
+    /**
+     * 老师id
+     */
+    private String teacherId;
+
     public String getId() {
         return id;
     }
@@ -193,6 +198,14 @@ public class CourseDto implements Serializable{
         this.categorys = categorys;
     }
 
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("CourseDto{");
@@ -209,7 +222,8 @@ public class CourseDto implements Serializable{
         sb.append(", sort=").append(sort);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
-        sb.append(", categoryDtos=").append(categorys);
+        sb.append(", categorys=").append(categorys);
+        sb.append(", teacherId='").append(teacherId).append('\'');
         sb.append('}');
         return sb.toString();
     }

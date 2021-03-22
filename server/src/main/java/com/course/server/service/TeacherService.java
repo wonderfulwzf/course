@@ -12,7 +12,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,5 +66,18 @@ public class TeacherService {
      */
     public void delete(String id) {
         teacherMapper.deleteByPrimaryKey(id);
+    }
+
+
+    /**
+     * 查询所有
+     */
+    public List<TeacherDto> all() {
+        TeacherExample teacherExample = new TeacherExample();
+        List<Teacher> teacherDtos = teacherMapper.selectByExample(teacherExample);
+        if(CollectionUtils.isEmpty(teacherDtos)){
+            return Collections.EMPTY_LIST;
+        }
+        return teacherDtos.stream().map(teacher -> CopierUtil.copyProperties(teacher, new TeacherDto())).collect(Collectors.toList());
     }
 }

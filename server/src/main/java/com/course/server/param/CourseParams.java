@@ -78,6 +78,8 @@ public class CourseParams implements Serializable{
 
     private long pageSize;
 
+    private String teacherId;
+
     public String getId() {
         return id;
     }
@@ -198,6 +200,14 @@ public class CourseParams implements Serializable{
         this.pageSize = pageSize;
     }
 
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("CourseParams{");
@@ -216,6 +226,7 @@ public class CourseParams implements Serializable{
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", pageNo=").append(pageNo);
         sb.append(", pageSize=").append(pageSize);
+        sb.append(", teacherId='").append(teacherId).append('\'');
         sb.append('}');
         return sb.toString();
     }

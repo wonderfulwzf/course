@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author 王智芳
  * @data 2021/3/6 13:38
@@ -75,6 +77,12 @@ public class TeacherController {
         Rest rest = new Rest();
         teacherService.delete(id);
         return rest.resultSuccess("删除大章成功");
+    }
+
+    @RequestMapping("/all")
+    public Rest<List<TeacherDto>> all(){
+        Rest<List<TeacherDto>> rest = new Rest<>();
+        return rest.resultSuccessInfo(teacherService.all());
     }
 
 
