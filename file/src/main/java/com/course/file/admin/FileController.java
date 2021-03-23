@@ -8,6 +8,7 @@ import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,12 +32,25 @@ public class FileController {
     private TestService testService;
 
     /**
+     * 文件路径
+     */
+    @Value("${file.path}")
+    private String FILE_PATH;
+
+    /**
+     * 文件路径
+     */
+    @Value("${file.domain}")
+    private String FILE_DOMAIN;
+
+    /**
      * 文件上传
      * @param file
      */
     @RequestMapping("/upload")
     public Rest upload(@RequestParam MultipartFile file) throws IOException {
         Rest rest  = new Rest();
+        System.out.println(FILE_DOMAIN);
         LOG.info("上传文件开所{}",file);
         LOG.info(file.getOriginalFilename());
         LOG.info(String.valueOf(file.getSize()));
@@ -44,11 +58,14 @@ public class FileController {
         //文件保存到本地
         String fileName = file.getOriginalFilename();
         String key  = UuidUtil.getShortUuid();
-        String fullPath = "C:/img/"+key+"-"+fileName;
+        String fullPath = FILE_PATH+key+"-"+fileName;
         File dest = new File(fullPath);
         file.transferTo(dest);
 
-        return rest.resultSuccess("ok");
+        //返回文件路径
+        rest.setData(FILE_DOMAIN+"/f/"+key+"-"+fileName);
+
+        return rest;
     }
 
     @RequestMapping("/test")
