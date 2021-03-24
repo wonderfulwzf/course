@@ -1,4 +1,4 @@
-package com.course.file.admin;
+package com.course.file.controller.admin;
 
 
 import com.course.server.common.Rest;
@@ -24,9 +24,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
-public class FileController {
+public class UploadController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FileController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
 
     @Autowired
     private TestService testService;
