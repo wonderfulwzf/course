@@ -3,6 +3,8 @@ package com.course.file.controller.admin;
 
 import com.course.server.common.Rest;
 import com.course.server.domain.Test;
+import com.course.server.dto.FileDto;
+import com.course.server.service.FileService;
 import com.course.server.service.TestService;
 import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
@@ -26,10 +28,14 @@ import java.util.List;
 @RequestMapping("/admin")
 public class UploadController {
 
+    public static final String BUSINESS_NAME = "文件";
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private FileService fileService;
 
     /**
      * 文件路径
@@ -58,12 +64,30 @@ public class UploadController {
         //文件保存到本地
         String fileName = file.getOriginalFilename();
         String key  = UuidUtil.getShortUuid();
-        String fullPath = FILE_PATH+key+"-"+fileName;
+
+        //文件后缀
+        String suffix = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+        //相对路径
+        String path = key+"."+suffix;
+
+        String fullPath = FILE_PATH+path;
         File dest = new File(fullPath);
         file.transferTo(dest);
 
+        //保存文件记录
+        LOG.info("保存文件记录开始");
+        FileDto fileDto = new FileDto();
+        fileDto.setId(UuidUtil.getShortUuid());
+        fileDto.setPath(path);
+        fileDto.setName(fileName);
+        fileDto.setSize(Math.toIntExact(file.getSize()));
+        fileDto.setSuffix(suffix);
+
+        fileService.save(fileDto);
+
+
         //返回文件路径
-        rest.setData(FILE_DOMAIN+"/f/"+key+"-"+fileName);
+        rest.setData(FILE_DOMAIN+path);
 
         return rest;
     }

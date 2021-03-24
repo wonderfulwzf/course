@@ -49,8 +49,10 @@ public class FileService {
     /**
      * 新增大章
      */
-    public void save(File file) {
-        fileMapper.insert(file);
+    public void save(FileDto fileDto) {
+        if(fileDto != null){
+            fileMapper.insert( CopierUtil.copyProperties(fileDto,new File()));
+        }
     }
 
     /**

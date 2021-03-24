@@ -54,8 +54,7 @@ public class FileController {
     public Rest save(@RequestBody FileDto fileDto){
         Rest rest = new Rest();
         fileDto.setId(UuidUtil.getShortUuid());
-        File file = new File();
-        fileService.save(CopierUtil.copyProperties(fileDto,file));
+        fileService.save(fileDto);
         return rest.resultSuccess("添加大章成功");
     }
 
