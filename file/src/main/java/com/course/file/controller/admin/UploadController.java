@@ -54,8 +54,8 @@ public class UploadController {
      * @param file
      */
     @RequestMapping("/upload")
-    public Rest upload(@RequestParam MultipartFile file,@RequestParam String use) throws IOException {
-        Rest rest  = new Rest();
+    public Rest<FileDto> upload(@RequestParam MultipartFile file,@RequestParam String use) throws IOException {
+        Rest<FileDto> rest  = new Rest<>();
 
 
         String dir = use.toLowerCase();
@@ -95,9 +95,10 @@ public class UploadController {
         fileService.save(fileDto);
 
         //返回文件路径
-        rest.setData(FILE_DOMAIN+path);
+        fileDto.setPath(FILE_DOMAIN+path);
+        //rest.setData(FILE_DOMAIN+path);
 
-        return rest;
+        return rest.resultSuccessInfo(fileDto);
     }
 
     @RequestMapping("/test")
