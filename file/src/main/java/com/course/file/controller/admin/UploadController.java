@@ -54,9 +54,17 @@ public class UploadController {
      * @param file
      */
     @RequestMapping("/upload")
-    public Rest upload(@RequestParam MultipartFile file) throws IOException {
+    public Rest upload(@RequestParam MultipartFile file,@RequestParam String use) throws IOException {
         Rest rest  = new Rest();
-        System.out.println(FILE_DOMAIN);
+
+
+        String dir = use.toLowerCase();
+        File fullDir = new File(FILE_PATH+dir);
+        if(!fullDir.exists()){
+            fullDir.mkdir();
+        }
+
+
         LOG.info("上传文件开所{}",file);
         LOG.info(file.getOriginalFilename());
         LOG.info(String.valueOf(file.getSize()));
@@ -68,7 +76,7 @@ public class UploadController {
         //文件后缀
         String suffix = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
         //相对路径
-        String path = key+"."+suffix;
+        String path =dir+File.separator+ key+"."+suffix;
 
         String fullPath = FILE_PATH+path;
         File dest = new File(fullPath);
@@ -80,11 +88,11 @@ public class UploadController {
         fileDto.setId(UuidUtil.getShortUuid());
         fileDto.setPath(path);
         fileDto.setName(fileName);
+        fileDto.setUse(use);
         fileDto.setSize(Math.toIntExact(file.getSize()));
         fileDto.setSuffix(suffix);
 
         fileService.save(fileDto);
-
 
         //返回文件路径
         rest.setData(FILE_DOMAIN+path);
