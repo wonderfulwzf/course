@@ -11,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -99,6 +99,39 @@ public class UploadController {
         //rest.setData(FILE_DOMAIN+path);
 
         return rest.resultSuccessInfo(fileDto);
+    }
+
+    @GetMapping("/merge")
+    public Rest merge() throws FileNotFoundException {
+        Rest rest = new Rest();
+        File newFile = new File(FILE_PATH+"课程/test.mp4");
+        FileOutputStream outputStream = new FileOutputStream(newFile,true);
+        FileInputStream fileInputStream = null;
+        byte[] byt = new byte[20 * 1024 * 1024];
+        int len;
+        try{
+            fileInputStream = new FileInputStream(new File(FILE_PATH + "课程/gSTmRf7d.blob"));
+            while ((len = fileInputStream.read(byt))!=-1){
+                outputStream.write(byt,0,len);
+            }
+            fileInputStream = new FileInputStream(new File(FILE_PATH + "课程/BLh3vf6g.blob"));
+            while ((len = fileInputStream.read(byt))!=-1){
+                outputStream.write(byt,0,len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try{
+                if(fileInputStream!=null){
+                    fileInputStream.close();
+                }
+                outputStream.close();
+                LOG.info("IO流关闭");
+            } catch (IOException e) {
+                LOG.info("IO流关闭异常");
+            }
+        }
+        return rest;
     }
 
     @RequestMapping("/test")
