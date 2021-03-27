@@ -94,7 +94,7 @@ public class UploadController {
 
 
         //分片合并
-        if(fileDto.getShardIndex() == fileDto.getShardTotal()){
+        if(fileDto.getShardIndex().equals(fileDto.getShardTotal())){
             this.mergeFile(fileDto);
         }
 
