@@ -70,7 +70,7 @@ public class UploadController {
         }
 
         //相对路径
-        String path =dir+File.separator+ key+"."+suffix;
+        String path = String.format("%s%s%s.%s.%d", dir, File.separator, key, suffix, shardIndex);
 
         String fullPath = FILE_PATH+path;
         File dest = new File(fullPath);
