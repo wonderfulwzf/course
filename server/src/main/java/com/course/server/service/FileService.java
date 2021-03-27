@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,13 +59,33 @@ public class FileService {
     /**
      * 更新大章
      */
-    public void update(File file) {
-        fileMapper.updateByPrimaryKey(file);
+    public void update(FileDto fileDto) {
+        if (fileDto != null) {
+            fileMapper.updateByPrimaryKey(CopierUtil.copyProperties(fileDto,new File()));
+        }
+
     }
     /**
      * 删除大章
      */
     public void delete(String id) {
         fileMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 根据文件标识判断时添加还是更新
+     * @param key
+     * @return
+     */
+    public FileDto selectByKey(String key){
+        FileExample example = new FileExample();
+        example.createCriteria().andKeyEqualTo(key);
+        List<File> files = fileMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(files)) {
+            return null;
+        }
+        else {
+            return CopierUtil.copyProperties(files.get(0),new FileDto());
+        }
     }
 }

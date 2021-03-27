@@ -3,11 +3,9 @@ package com.course.file.controller.admin;
 
 import com.course.server.common.Page;
 import com.course.server.common.Rest;
-import com.course.server.domain.File;
 import com.course.server.dto.FileDto;
 import com.course.server.param.FileParams;
 import com.course.server.service.FileService;
-import com.course.server.utils.CopierUtil;
 import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,8 +62,7 @@ public class FileController {
         if(!StringUtils.hasText(fileDto.getId())){
             return rest.resultSuccess("添加大章失败");
         }
-        File file = new File();
-        fileService.update(CopierUtil.copyProperties(fileDto,file));
+        fileService.update(fileDto);
         return rest.resultSuccess("添加大章成功");
     }
 
