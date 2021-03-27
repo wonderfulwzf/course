@@ -75,25 +75,31 @@ public class UploadController {
         String fullPath = FILE_PATH+path;
         File dest = new File(fullPath);
         shard.transferTo(dest);
-
-        //保存文件记录
-        LOG.info("保存文件记录开始");
-
-        fileDto.setId(UuidUtil.getShortUuid());
-        fileDto.setPath(path);
-
         FileDto fileDo = fileService.selectByKey(key);
         if(fileDo == null){
+            //保存文件记录
+            LOG.info("保存文件记录开始");
+            fileDto.setId(UuidUtil.getShortUuid());
+            fileDto.setPath(path);
             fileService.save(fileDto);
         }
         else {
+            //保存文件记录
+            LOG.info("更新文件记录开始");
             fileDo.setShardIndex(shardIndex);
             fileService.update(fileDo);
         }
-        //返回文件路径
-        fileDto.setPath(FILE_DOMAIN+path);
-        //rest.setData(FILE_DOMAIN+path);
 
+
+        //分片合并
+        if(fileDto.getShardIndex() == fileDto.getShardTotal()){
+            this.mergeFile(fileDto);
+        }
+
+        //返回文件路径
+        String httppath = String.format("%s%s%s.%s", fileDto.getUse().toLowerCase(), File.separator, fileDto.getKey(), fileDto.getSuffix());
+        fileDto.setPath(FILE_DOMAIN+httppath);
+        //rest.setData(FILE_DOMAIN+path);
         return rest.resultSuccessInfo(fileDto);
     }
 
@@ -133,5 +139,36 @@ public class UploadController {
     @RequestMapping("/test")
     public List<Test> list(){
         return testService.list();
+    }
+
+
+    private void mergeFile(FileDto fileDto) throws FileNotFoundException {
+        String path = String.format("%s%s%s.%s", fileDto.getUse().toLowerCase(), File.separator, fileDto.getKey(), fileDto.getSuffix());
+        File newFile = new File(FILE_PATH+path);
+        FileOutputStream outputStream = new FileOutputStream(newFile,true);
+        FileInputStream fileInputStream = null;
+        byte[] byt = new byte[20 * 1024 * 1024];
+        int len;
+        try{
+            //读取所有
+            for (int i = 1; i<=fileDto.getShardTotal();i++){
+                fileInputStream = new FileInputStream(new File(FILE_PATH+path +"."+i));
+                while ((len = fileInputStream.read(byt))!=-1){
+                    outputStream.write(byt,0,len);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try{
+                if(fileInputStream!=null){
+                    fileInputStream.close();
+                }
+                outputStream.close();
+                LOG.info("IO流关闭");
+            } catch (IOException e) {
+                LOG.info("IO流关闭异常");
+            }
+        }
     }
 }
