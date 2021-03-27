@@ -7,9 +7,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="suffix" jdbcType="VARCHAR" property="suffix" />
     <result column="size" jdbcType="INTEGER" property="size" />
-    <result column="use" jdbcType="CHAR" property="use" />
+    <result column="use" jdbcType="VARCHAR" property="use" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="shard_index" jdbcType="INTEGER" property="shardIndex" />
+    <result column="shard_size" jdbcType="INTEGER" property="shardSize" />
+    <result column="shard_total" jdbcType="INTEGER" property="shardTotal" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `path`, `name`, suffix, `size`, `use`, created_at, updated_at
+    id, `path`, `name`, suffix, `size`, `use`, created_at, updated_at, shard_index, shard_size, 
+    shard_total, `key`
   </sql>
   <select id="selectByExample" parameterType="com.course.server.domain.FileExample" resultMap="BaseResultMap">
     select
@@ -104,11 +109,15 @@
   </delete>
   <insert id="insert" parameterType="com.course.server.domain.File">
     insert into file (id, `path`, `name`, 
-      suffix, `size`, `use`, created_at, 
-      updated_at)
+      suffix, `size`, `use`, 
+      created_at, updated_at, shard_index, 
+      shard_size, shard_total, `key`
+      )
     values (#{id,jdbcType=CHAR}, #{path,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{suffix,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{use,jdbcType=CHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{suffix,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{use,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{shardIndex,jdbcType=INTEGER}, 
+      #{shardSize,jdbcType=INTEGER}, #{shardTotal,jdbcType=INTEGER}, #{key,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.course.server.domain.File">
     insert into file
@@ -137,6 +146,18 @@
       <if test="updatedAt != null">
         updated_at,
       </if>
+      <if test="shardIndex != null">
+        shard_index,
+      </if>
+      <if test="shardSize != null">
+        shard_size,
+      </if>
+      <if test="shardTotal != null">
+        shard_total,
+      </if>
+      <if test="key != null">
+        `key`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,13 +176,25 @@
         #{size,jdbcType=INTEGER},
       </if>
       <if test="use != null">
-        #{use,jdbcType=CHAR},
+        #{use,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shardIndex != null">
+        #{shardIndex,jdbcType=INTEGER},
+      </if>
+      <if test="shardSize != null">
+        #{shardSize,jdbcType=INTEGER},
+      </if>
+      <if test="shardTotal != null">
+        #{shardTotal,jdbcType=INTEGER},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -190,13 +223,25 @@
         `size` = #{record.size,jdbcType=INTEGER},
       </if>
       <if test="record.use != null">
-        `use` = #{record.use,jdbcType=CHAR},
+        `use` = #{record.use,jdbcType=VARCHAR},
       </if>
       <if test="record.createdAt != null">
         created_at = #{record.createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updatedAt != null">
         updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shardIndex != null">
+        shard_index = #{record.shardIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.shardSize != null">
+        shard_size = #{record.shardSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.shardTotal != null">
+        shard_total = #{record.shardTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.key != null">
+        `key` = #{record.key,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -210,9 +255,13 @@
       `name` = #{record.name,jdbcType=VARCHAR},
       suffix = #{record.suffix,jdbcType=VARCHAR},
       `size` = #{record.size,jdbcType=INTEGER},
-      `use` = #{record.use,jdbcType=CHAR},
+      `use` = #{record.use,jdbcType=VARCHAR},
       created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      shard_index = #{record.shardIndex,jdbcType=INTEGER},
+      shard_size = #{record.shardSize,jdbcType=INTEGER},
+      shard_total = #{record.shardTotal,jdbcType=INTEGER},
+      `key` = #{record.key,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -233,13 +282,25 @@
         `size` = #{size,jdbcType=INTEGER},
       </if>
       <if test="use != null">
-        `use` = #{use,jdbcType=CHAR},
+        `use` = #{use,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
         created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shardIndex != null">
+        shard_index = #{shardIndex,jdbcType=INTEGER},
+      </if>
+      <if test="shardSize != null">
+        shard_size = #{shardSize,jdbcType=INTEGER},
+      </if>
+      <if test="shardTotal != null">
+        shard_total = #{shardTotal,jdbcType=INTEGER},
+      </if>
+      <if test="key != null">
+        `key` = #{key,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=CHAR}
@@ -250,9 +311,13 @@
       `name` = #{name,jdbcType=VARCHAR},
       suffix = #{suffix,jdbcType=VARCHAR},
       `size` = #{size,jdbcType=INTEGER},
-      `use` = #{use,jdbcType=CHAR},
+      `use` = #{use,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      shard_index = #{shardIndex,jdbcType=INTEGER},
+      shard_size = #{shardSize,jdbcType=INTEGER},
+      shard_total = #{shardTotal,jdbcType=INTEGER},
+      `key` = #{key,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
 </mapper>

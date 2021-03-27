@@ -1,52 +1,33 @@
 package com.course.server.dto;
 
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.util.Date;
 
-public class FileDto implements Serializable{
-    private static final long serialVersionUID = 1L;
-    /**
-     * id
-     */
+public class FileDto implements Serializable {
+    private static final long serialVersionUID = 8711044046607087634L;
     private String id;
 
-    /**
-     * 相对路径
-     */
     private String path;
 
-    /**
-     * 文件名
-     */
     private String name;
 
-    /**
-     * 后缀
-     */
     private String suffix;
 
-    /**
-     * 大小|字节B
-     */
     private Integer size;
 
-    /**
-     * 用途
-     */
     private String use;
 
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createdAt;
 
-    /**
-     * 修改时间
-     */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updatedAt;
+
+    private Integer shardIndex;
+
+    private Integer shardSize;
+
+    private Integer shardTotal;
+
+    private String key;
 
     public String getId() {
         return id;
@@ -112,6 +93,37 @@ public class FileDto implements Serializable{
         this.updatedAt = updatedAt;
     }
 
+    public Integer getShardIndex() {
+        return shardIndex;
+    }
+
+    public void setShardIndex(Integer shardIndex) {
+        this.shardIndex = shardIndex;
+    }
+
+    public Integer getShardSize() {
+        return shardSize;
+    }
+
+    public void setShardSize(Integer shardSize) {
+        this.shardSize = shardSize;
+    }
+
+    public Integer getShardTotal() {
+        return shardTotal;
+    }
+
+    public void setShardTotal(Integer shardTotal) {
+        this.shardTotal = shardTotal;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     @Override
     public String toString() {
@@ -127,8 +139,11 @@ public class FileDto implements Serializable{
         sb.append(", use=").append(use);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", shardIndex=").append(shardIndex);
+        sb.append(", shardSize=").append(shardSize);
+        sb.append(", shardTotal=").append(shardTotal);
+        sb.append(", key=").append(key);
         sb.append("]");
         return sb.toString();
     }
-
 }

@@ -1,8 +1,10 @@
 package com.course.server.param;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FileParams {
+public class FileParams implements Serializable {
+    private static final long serialVersionUID = -3857079371418088240L;
     private String id;
 
     private String path;
@@ -18,6 +20,14 @@ public class FileParams {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private Integer shardIndex;
+
+    private Integer shardSize;
+
+    private Integer shardTotal;
+
+    private String key;
 
     private long pageNo;
 
@@ -87,6 +97,38 @@ public class FileParams {
         this.updatedAt = updatedAt;
     }
 
+    public Integer getShardIndex() {
+        return shardIndex;
+    }
+
+    public void setShardIndex(Integer shardIndex) {
+        this.shardIndex = shardIndex;
+    }
+
+    public Integer getShardSize() {
+        return shardSize;
+    }
+
+    public void setShardSize(Integer shardSize) {
+        this.shardSize = shardSize;
+    }
+
+    public Integer getShardTotal() {
+        return shardTotal;
+    }
+
+    public void setShardTotal(Integer shardTotal) {
+        this.shardTotal = shardTotal;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public long getPageNo() {
         return pageNo;
     }
@@ -114,6 +156,10 @@ public class FileParams {
         sb.append(", use='").append(use).append('\'');
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", shardIndex=").append(shardIndex);
+        sb.append(", shardSize=").append(shardSize);
+        sb.append(", shardTotal=").append(shardTotal);
+        sb.append(", key='").append(key).append('\'');
         sb.append(", pageNo=").append(pageNo);
         sb.append(", pageSize=").append(pageSize);
         sb.append('}');
