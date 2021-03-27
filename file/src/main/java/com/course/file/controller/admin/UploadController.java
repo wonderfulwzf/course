@@ -51,7 +51,7 @@ public class UploadController {
      * 文件上传
      */
     @RequestMapping("/upload")
-    public Rest<FileDto> upload(@RequestBody FileDto fileDto) throws IOException {
+    public Rest<FileDto> upload(@RequestBody FileDto fileDto) throws IOException, InterruptedException {
         Rest<FileDto> rest  = new Rest<>();
 
         String use = fileDto.getUse();
@@ -69,8 +69,10 @@ public class UploadController {
             fullDir.mkdir();
         }
 
-        //相对路径
+        //分片相对路径
         String path = String.format("%s%s%s.%s.%d", dir, File.separator, key, suffix, shardIndex);
+        //返回播放路径
+        String httppath = String.format("%s%s%s.%s", fileDto.getUse().toLowerCase(), File.separator, fileDto.getKey(), fileDto.getSuffix());
 
         String fullPath = FILE_PATH+path;
         File dest = new File(fullPath);
@@ -80,7 +82,7 @@ public class UploadController {
             //保存文件记录
             LOG.info("保存文件记录开始");
             fileDto.setId(UuidUtil.getShortUuid());
-            fileDto.setPath(path);
+            fileDto.setPath(httppath);
             fileService.save(fileDto);
         }
         else {
@@ -96,8 +98,7 @@ public class UploadController {
             this.mergeFile(fileDto);
         }
 
-        //返回文件路径
-        String httppath = String.format("%s%s%s.%s", fileDto.getUse().toLowerCase(), File.separator, fileDto.getKey(), fileDto.getSuffix());
+
         fileDto.setPath(FILE_DOMAIN+httppath);
         //rest.setData(FILE_DOMAIN+path);
         return rest.resultSuccessInfo(fileDto);
@@ -142,7 +143,7 @@ public class UploadController {
     }
 
 
-    private void mergeFile(FileDto fileDto) throws FileNotFoundException {
+    private void mergeFile(FileDto fileDto) throws FileNotFoundException, InterruptedException {
         String path = String.format("%s%s%s.%s", fileDto.getUse().toLowerCase(), File.separator, fileDto.getKey(), fileDto.getSuffix());
         File newFile = new File(FILE_PATH+path);
         FileOutputStream outputStream = new FileOutputStream(newFile,true);
@@ -170,5 +171,27 @@ public class UploadController {
                 LOG.info("IO流关闭异常");
             }
         }
+        LOG.info("删除分片开始");
+        System.gc();
+        Thread.sleep(100);
+        //读取所有
+        for (int i = 1; i<=fileDto.getShardTotal();i++){
+            String filePath = FILE_PATH+path +"."+i;
+            File file = new File(filePath);
+            boolean result = file.delete();
+            LOG.info(String.format("删除第%d个分片：%s", i, result));
+        }
+        LOG.info("删除分片结束");
+    }
+
+    @RequestMapping("/check/{key}")
+    public Rest<FileDto> check(@PathVariable String key){
+        LOG.info("检查分片上传"+key);
+        Rest<FileDto> rest = new Rest<>();
+        FileDto fileDto = fileService.selectByKey(key);
+        if(fileDto != null){
+            fileDto.setPath(FILE_DOMAIN+fileDto.getPath());
+        }
+        return rest.resultSuccessInfo(fileDto);
     }
 }
