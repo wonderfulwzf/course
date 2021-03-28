@@ -106,11 +106,11 @@ public class OssController {
         ossClient.shutdown();
 
         FileDto fileDo = fileService.selectByKey(key);
+        fileDto.setPath(ossDomainhttp+"/"+path);
         if(fileDo == null){
             //保存文件记录
             LOG.info("保存文件记录开始");
             fileDto.setId(UuidUtil.getShortUuid());
-            fileDto.setPath(ossDomainhttp+"/"+path);
             fileService.save(fileDto);
         }
         else {

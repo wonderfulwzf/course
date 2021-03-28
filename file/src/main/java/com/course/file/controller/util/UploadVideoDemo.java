@@ -39,7 +39,7 @@ public class UploadVideoDemo {
     private static void testUploadVideo(String accessKeyId, String accessKeySecret, String title, String fileName) {
         UploadVideoRequest request = new UploadVideoRequest(accessKeyId, accessKeySecret, title, fileName);
         /*可指定分片上传时每个分片的大小，默认为1M字节*/
-        request.setPartSize(1 * 1024 * 1024L);
+        request.setPartSize(10 * 1024 * 1024L);
         /*可指定分片上传时的并发线程数，默认为1（注：该配置会占用服务器CPU资源，需根据服务器情况指定）*/
         request.setTaskNum(1);
         /*是否开启断点续传，默认断点续传功能关闭。当网络不稳定或者程序崩溃时，再次发起相同上传请求，可以继续未完成的上传任务，适用于超时3000秒仍不能上传完成的大文件。
@@ -55,7 +55,7 @@ public class UploadVideoDemo {
         // request.setUserData("{\"Extend\":{\"test\":\"www\",\"localId\":\"xxxx\"},\"MessageCallback\":{\"CallbackURL\":\"http://test.test.com\"}}");
 
         /*视频分类ID（可选）*/
-        //request.setCateId(0);
+        request.setCateId(1000285747L);
         /*视频标签,多个用逗号分隔（可选）*/
         //request.setTags（"标签1,标签2"）;
         /*视频描述（可选）*/
@@ -63,7 +63,7 @@ public class UploadVideoDemo {
         /*封面图片（可选）*/
         //request.setCoverURL("http://cover.sample.com/sample.jpg");
         /*模板组ID（可选）*/
-        //request.setTemplateGroupId("8c4792cbc8694*****d5330e56a33d");
+        request.setTemplateGroupId("8b686ca6d2b4e35abca7da47ee35088a");
         /*点播服务接入点*/
         //request.setApiRegionId("cn-shanghai");
         /*ECS部署区域，如果与点播存储（OSS）区域相同，则自动使用内网上传文件至存储*/

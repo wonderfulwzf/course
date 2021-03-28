@@ -189,9 +189,6 @@ public class UploadController {
         LOG.info("检查分片上传"+key);
         Rest<FileDto> rest = new Rest<>();
         FileDto fileDto = fileService.selectByKey(key);
-        if(fileDto != null){
-            fileDto.setPath(FILE_DOMAIN+fileDto.getPath());
-        }
         return rest.resultSuccessInfo(fileDto);
     }
 }
