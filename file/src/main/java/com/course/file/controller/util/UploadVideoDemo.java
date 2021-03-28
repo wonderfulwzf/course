@@ -7,12 +7,16 @@ import com.aliyun.vod.upload.req.UploadImageRequest;
 import com.aliyun.vod.upload.req.UploadVideoRequest;
 import com.aliyun.vod.upload.resp.UploadImageResponse;
 import com.aliyun.vod.upload.resp.UploadVideoResponse;
+import org.springframework.beans.factory.annotation.Value;
 
 public class UploadVideoDemo {
-    //账号AK信息（必选）
-    private static final String accessKeyId = "LTAI5tHvwwGbFc6NntQJpe4X";
-    //账号AK信息（必选）
-    private static final String accessKeySecret = "IHgXtxnvWM4XbUWBJnhBATUgxTWZRe";
+
+    @Value("${vod.accessKeyId}")
+    private static String accessKeyId;
+
+    @Value(("${vod.accessKeySecret}"))
+    private static String accessKeySecret;
+
 
     public static void main(String[] args) {
         //1.音视频上传-本地文件上传

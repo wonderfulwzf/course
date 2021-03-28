@@ -144,6 +144,15 @@ public class FileParams implements Serializable {
     public void setPageSize(long pageSize) {
         this.pageSize = pageSize;
     }
+    private String vod;
+
+    public String getVod() {
+        return vod;
+    }
+
+    public void setVod(String vod) {
+        this.vod = vod;
+    }
 
     @Override
     public String toString() {
@@ -162,6 +171,7 @@ public class FileParams implements Serializable {
         sb.append(", key='").append(key).append('\'');
         sb.append(", pageNo=").append(pageNo);
         sb.append(", pageSize=").append(pageSize);
+        sb.append(", vod='").append(vod).append('\'');
         sb.append('}');
         return sb.toString();
     }
