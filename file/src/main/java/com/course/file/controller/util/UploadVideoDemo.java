@@ -14,18 +14,23 @@ public class UploadVideoDemo {
     @Value("${vod.accessKeyId}")
     private static String accessKeyId;
 
-    @Value(("${vod.accessKeySecret}"))
+    @Value("${vod.accessKeySecret}")
     private static String accessKeySecret;
 
 
     public static void main(String[] args) {
+        String accessKeyId = "LTAI5tHvwwGbFc6NntQJpe4X";
+        String accessKeySecret = "IHgXtxnvWM4XbUWBJnhBATUgxTWZRe";
         //1.音视频上传-本地文件上传
         //视频标题(必选)  文件名
-        String title = "测试视频上传";
+        String title = "测试视频上传2";
         //本地文件上传和文件流上传时，文件名称为上传文件绝对路径，如:/User/sample/文件名称.mp4 (必选)
         //文件名必须包含扩展名
         String fileName = "C:\\Users\\80504\\Desktop\\image\\p.mp4";
+        //String fileName = "p.mp4";
         //本地文件上传
+        System.out.println(accessKeyId);
+        System.out.println(accessKeySecret);
         testUploadVideo(accessKeyId, accessKeySecret, title, fileName);
 
         //2.图片上传-本地文件上传
@@ -59,7 +64,7 @@ public class UploadVideoDemo {
         // request.setUserData("{\"Extend\":{\"test\":\"www\",\"localId\":\"xxxx\"},\"MessageCallback\":{\"CallbackURL\":\"http://test.test.com\"}}");
 
         /*视频分类ID（可选）*/
-        request.setCateId(1000285747L);
+        //request.setCateId(1000285747L);
         /*视频标签,多个用逗号分隔（可选）*/
         //request.setTags（"标签1,标签2"）;
         /*视频描述（可选）*/
@@ -67,7 +72,7 @@ public class UploadVideoDemo {
         /*封面图片（可选）*/
         //request.setCoverURL("http://cover.sample.com/sample.jpg");
         /*模板组ID（可选）*/
-        request.setTemplateGroupId("8b686ca6d2b4e35abca7da47ee35088a");
+        //request.setTemplateGroupId("8b686ca6d2b4e35abca7da47ee35088a");
         /*点播服务接入点*/
         //request.setApiRegionId("cn-shanghai");
         /*ECS部署区域，如果与点播存储（OSS）区域相同，则自动使用内网上传文件至存储*/
