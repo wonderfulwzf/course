@@ -14,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 王智芳
@@ -84,7 +81,32 @@ public class UserController {
         return rest.resultSuccess("删除大章成功");
     }
 
+    @RequestMapping("/save_password")
+    public Rest savePassword(@RequestBody UserDto userDto){
+        Rest rest = new Rest();
+        //密码加密
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        userService.savePassword(userDto);
+        rest.setData(userDto);
+        return rest.resultSuccess("添加用户成功");
+    }
 
+    /**
+     * 登录
+     */
+    @PostMapping("/login")
+    public Rest<UserDto> login(@RequestBody UserDto userDto) {
+        LOG.info("用户登录开始");
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        Rest<UserDto> rest = new Rest<>();
+        UserDto login = userService.login(userDto);
+        if(login!=null){
+            return rest.resultSuccessInfo(login);
+        }
+        return rest.resultFail("登录失败");
+
+    }
+    
     @RequestMapping("/test")
     public String test(){
         return "321";

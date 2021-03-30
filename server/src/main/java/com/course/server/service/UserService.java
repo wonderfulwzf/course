@@ -58,7 +58,8 @@ public class UserService {
      * 更新大章
      */
     public void update(User user) {
-        userMapper.updateByPrimaryKey(user);
+        user.setPassword(null);
+        userMapper.updateByPrimaryKeySelective(user);
     }
     /**
      * 删除大章
@@ -83,5 +84,33 @@ public class UserService {
         }
     }
 
+    /**
+     * 重置密码
+     * @param userDto
+     */
+    public void savePassword(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setPassword(userDto.getPassword());
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 
+    /**
+     * 登录
+     * @param userDto
+     */
+    public UserDto  login(UserDto userDto) {
+        User user = selectByLoginName(userDto.getLoginName());
+        if(user == null){
+            //用户不存在
+        }else {
+            if(user.getPassword().equals(userDto.getPassword())){
+                //登录成功
+                return CopierUtil.copyProperties(user,new UserDto());
+            }else {
+                //登录失败
+            }
+        }
+        return null;
+    }
 }
