@@ -12,6 +12,7 @@ import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,6 +55,12 @@ public class UserController {
     public Rest save(@RequestBody UserDto userDto){
         Rest rest = new Rest();
         userDto.setId(UuidUtil.getShortUuid());
+        //密码加密
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        User userDB = userService.selectByLoginName(userDto.getLoginName());
+        if(userDB != null){
+            return rest.resultFail("用户名不能为空");
+        }
         User user = new User();
         userService.save(CopierUtil.copyProperties(userDto,user));
         return rest.resultSuccess("添加大章成功");

@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,4 +66,22 @@ public class UserService {
     public void delete(String id) {
         userMapper.deleteByPrimaryKey(id);
     }
+
+    /**
+     * 根据登录名查询用户信息
+     * @param loginName
+     * @return
+     */
+    public User selectByLoginName(String loginName) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andLoginNameEqualTo(loginName);
+        List<User> userList = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
+    }
+
+
 }
