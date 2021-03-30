@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.*;
 
 public class VueGenerator {
-    static String MODULE = "file";
+    static String MODULE = "system";
     static String toVuePath = "C:\\Users\\80504\\Desktop\\course-vue\\admin\\src\\views\\admin\\";
     static String generatorConfigPath = "server\\src\\main\\resources\\generator\\generatorConfig.xml";
 
