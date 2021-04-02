@@ -16,6 +16,8 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author 王智芳
  * @data 2021/3/6 13:38
@@ -95,16 +97,27 @@ public class UserController {
      * 登录
      */
     @PostMapping("/login")
-    public Rest<UserDto> login(@RequestBody UserDto userDto) {
+    public Rest<UserDto> login(@RequestBody UserDto userDto, HttpServletRequest request) {
         LOG.info("用户登录开始");
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         Rest<UserDto> rest = new Rest<>();
         UserDto login = userService.login(userDto);
+        request.getSession().setAttribute("loginUser",login);
         if(login!=null){
             return rest.resultSuccessInfo(login);
         }
         return rest.resultFail("登录失败");
+    }
 
+    /**
+     * 退出登录
+     */
+    @RequestMapping("/login_out")
+    public Rest loginOut(HttpServletRequest request) {
+        LOG.info("用户退出登录");
+        Rest<UserDto> rest = new Rest<>();
+        request.getSession().removeAttribute("loginUser");
+        return rest.resultSuccess("退出登录成功");
     }
     
     @RequestMapping("/test")
