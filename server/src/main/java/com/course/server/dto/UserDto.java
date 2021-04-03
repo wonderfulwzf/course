@@ -1,6 +1,8 @@
 package com.course.server.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 
 public class UserDto implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -29,6 +31,32 @@ public class UserDto implements Serializable{
     private String imageCodeToken;
 
     private String token;
+
+    /**
+     * 所有资源，用于前端资源界面控制
+     */
+    private List<ResourceDto> resources;
+
+    /**
+     * 资源中所有的请求，用于后端接口拦截
+     */
+    private HashSet<String> requests;
+
+    public List<ResourceDto> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<ResourceDto> resources) {
+        this.resources = resources;
+    }
+
+    public HashSet<String> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(HashSet<String> requests) {
+        this.requests = requests;
+    }
 
     public String getToken() {
         return token;
@@ -96,6 +124,8 @@ public class UserDto implements Serializable{
         sb.append(", imageCode='").append(imageCode).append('\'');
         sb.append(", imageCodeToken='").append(imageCodeToken).append('\'');
         sb.append(", token='").append(token).append('\'');
+        sb.append(", resources=").append(resources);
+        sb.append(", request=").append(requests);
         sb.append('}');
         return sb.toString();
     }
