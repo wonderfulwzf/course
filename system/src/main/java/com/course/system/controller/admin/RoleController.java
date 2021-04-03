@@ -108,6 +108,19 @@ public class RoleController {
         return rest.resultSuccessInfo(roleDto);
     }
 
+
+    /**
+     * 加载用户
+     * @param roleId
+     */
+    @GetMapping("/list_user/{roleId}")
+    public Rest listUser(@PathVariable String roleId) {
+        LOG.info("加载用户开始");
+        Rest rest = new Rest();
+        List<String> userIdList = roleService.listUser(roleId);
+        return rest.resultSuccessInfo(userIdList);
+    }
+
     @RequestMapping("/test")
     public String test(){
         return "321";
