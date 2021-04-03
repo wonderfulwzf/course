@@ -12,10 +12,12 @@ import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -30,10 +32,13 @@ public class UserController {
      */
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    public static final String BUSINESS_NAME = "";
+    public static final String BUSINESS_NAME = "用户管理";
 
     @Autowired
     private UserService userService;
+
+    @Resource
+    public RedisTemplate redisTemplate;
 
     /**
     * @description: 查询大章列表
@@ -101,6 +106,30 @@ public class UserController {
         LOG.info("用户登录开始");
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         Rest<UserDto> rest = new Rest<>();
+
+        System.out.println(request.getSession().getId());
+
+        // 根据验证码token去获取缓存中的验证码，和用户输入的验证码是否一致
+         //String imageCode = (String) request.getSession().getAttribute(userDto.getImageCodeToken());
+        String imageCode = (String) redisTemplate.opsForValue().get(userDto.getImageCodeToken());
+        LOG.info("从redis中获取到的验证码：{}", imageCode);
+        if (StringUtils.isEmpty(imageCode)) {
+            rest.setSuccess(false);
+            rest.setMessage("验证码已过期");
+            LOG.info("用户登录失败，验证码已过期");
+            return rest;
+        }
+        if (!imageCode.toLowerCase().equals(userDto.getImageCode().toLowerCase())) {
+            rest.setSuccess(false);
+            rest.setMessage("验证码不对");
+            LOG.info("用户登录失败，验证码不对");
+            return rest;
+        } else {
+            // 验证通过后，移除验证码
+           request.getSession().removeAttribute(userDto.getImageCodeToken());
+            //redisTemplate.delete(userDto.getImageCodeToken());
+        }
+
         UserDto login = userService.login(userDto);
         request.getSession().setAttribute("loginUser",login);
         if(login!=null){
