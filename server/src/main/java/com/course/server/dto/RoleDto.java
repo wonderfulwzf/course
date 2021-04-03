@@ -22,6 +22,16 @@ public class RoleDto implements Serializable{
 
     private List<String> resourceIds;
 
+    private  List<String>  userIds;
+
+    public List<String> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<String> userIds) {
+        this.userIds = userIds;
+    }
+
     public List<String> getResourceIds() {
         return resourceIds;
     }
@@ -61,6 +71,7 @@ public class RoleDto implements Serializable{
         sb.append(", name='").append(name).append('\'');
         sb.append(", desc='").append(desc).append('\'');
         sb.append(", resourceIds=").append(resourceIds);
+        sb.append(", userIds=").append(userIds);
         sb.append('}');
         return sb.toString();
     }
