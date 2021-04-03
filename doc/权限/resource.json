@@ -46,6 +46,26 @@
           {"id": "020302","name": "删除","request":["/business/admin/section/delete"]},
           {"id": "020303","name": "修改","request":["/business/admin/section/update"]}
         ]
+      }, {
+        "id":"0204","name":"讲师管理","page":"/business/teacher",
+        "children": [
+          {"id": "020401","name": "保存","request":["/business/admin/teacher/list","/business/admin/teacher/save"]},
+          {"id": "020402","name": "删除","request":["/business/admin/teacher/delete"]},
+          {"id": "020403","name": "修改","request":["/business/admin/teacher/update"]}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "03","name":"文件管理",
+    "children": [
+      {
+        "id":"0301","name":"文件管理","page":"/file/file",
+        "children": [
+          {"id": "030101","name": "保存","request":["/file/admin/file/list","/file/admin/file/save"]},
+          {"id": "030102","name": "删除","request":["/file/admin/file/delete"]},
+          {"id": "030103","name": "修改","request":["/file/admin/file/update"]}
+        ]
       }
     ]
   }

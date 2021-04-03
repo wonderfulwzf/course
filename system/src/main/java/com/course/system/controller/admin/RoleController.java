@@ -13,10 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author 王智芳
@@ -77,6 +76,24 @@ public class RoleController {
         return rest.resultSuccess("删除大章成功");
     }
 
+    @RequestMapping("/save_resource")
+    public Rest saveResource(@RequestBody RoleDto roleDto){
+        LOG.info("保存角色资源关联开始");
+        Rest<RoleDto> rest = new Rest<>();
+        roleService.saveResource(roleDto);
+        return rest;
+    }
+
+    /**
+     * 加载已关联的资源
+     */
+    @GetMapping("/list_resource/{roleId}")
+    public Rest<List<String>> listResource(@PathVariable String roleId) {
+        LOG.info("加载资源开始");
+        Rest<List<String>> rest = new Rest<>();
+        List<String> resourceIdList = roleService.listResource(roleId);
+        return rest.resultSuccessInfo(resourceIdList);
+    }
 
     @RequestMapping("/test")
     public String test(){

@@ -1,6 +1,7 @@
 package com.course.server.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class RoleDto implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -18,6 +19,16 @@ public class RoleDto implements Serializable{
      * 描述
      */
     private String desc;
+
+    private List<String> resourceIds;
+
+    public List<String> getResourceIds() {
+        return resourceIds;
+    }
+
+    public void setResourceIds(List<String> resourceIds) {
+        this.resourceIds = resourceIds;
+    }
 
     public String getId() {
         return id;
@@ -43,18 +54,14 @@ public class RoleDto implements Serializable{
         this.desc = desc;
     }
 
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", desc=").append(desc);
-        sb.append("]");
+        final StringBuffer sb = new StringBuffer("RoleDto{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", desc='").append(desc).append('\'');
+        sb.append(", resourceIds=").append(resourceIds);
+        sb.append('}');
         return sb.toString();
     }
-
 }
