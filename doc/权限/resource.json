@@ -21,6 +21,33 @@
         ]
       }
     ]
+  },
+  {
+    "id": "02","name":"业务管理",
+    "children": [
+      {
+        "id":"0201","name":"课程管理","page":"/business/course",
+        "children": [
+          {"id": "020101","name": "保存","request":["/business/admin/course/list","/business/admin/course/save"]},
+          {"id": "020102","name": "删除","request":["/business/admin/course/delete"]},
+          {"id": "020103","name": "修改","request":["/business/admin/course/update"]}
+        ]
+      }, {
+        "id":"0202","name":"大章管理","page":"/business/category",
+        "children": [
+          {"id": "020201","name": "保存","request":["/business/admin/category/list","/business/admin/category/save"]},
+          {"id": "020202","name": "删除","request":["/business/admin/category/delete"]},
+          {"id": "020203","name": "修改","request":["/business/admin/category/update"]}
+        ]
+      }, {
+        "id":"0203","name":"小节管理","page":"/business/section",
+        "children": [
+          {"id": "020301","name": "保存","request":["/business/admin/section/list","/business/admin/section/save"]},
+          {"id": "020302","name": "删除","request":["/business/admin/section/delete"]},
+          {"id": "020303","name": "修改","request":["/business/admin/section/update"]}
+        ]
+      }
+    ]
   }
 
 
