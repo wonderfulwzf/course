@@ -1,6 +1,7 @@
 package com.course.system.controller.admin;
 
 
+import com.alibaba.fastjson.JSON;
 import com.course.server.common.Page;
 import com.course.server.common.Rest;
 import com.course.server.domain.User;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 王智芳
@@ -126,11 +128,14 @@ public class UserController {
             return rest;
         } else {
             // 验证通过后，移除验证码
-           request.getSession().removeAttribute(userDto.getImageCodeToken());
-            //redisTemplate.delete(userDto.getImageCodeToken());
+            //request.getSession().removeAttribute(userDto.getImageCodeToken());
+            redisTemplate.delete(userDto.getImageCodeToken());
         }
 
         UserDto login = userService.login(userDto);
+        String token = UuidUtil.getShortUuid();
+        login.setToken(token);
+        redisTemplate.opsForValue().set(token, JSON.toJSONString(login),3600, TimeUnit.SECONDS);
         request.getSession().setAttribute("loginUser",login);
         if(login!=null){
             return rest.resultSuccessInfo(login);
@@ -141,11 +146,12 @@ public class UserController {
     /**
      * 退出登录
      */
-    @RequestMapping("/login_out")
-    public Rest loginOut(HttpServletRequest request) {
+    @RequestMapping("/login_out/{token}")
+    public Rest loginOut(@PathVariable String token) {
         LOG.info("用户退出登录");
         Rest<UserDto> rest = new Rest<>();
-        request.getSession().removeAttribute("loginUser");
+        redisTemplate.delete(token);
+        LOG.info("从redis中删除token信息");
         return rest.resultSuccess("退出登录成功");
     }
     

@@ -28,6 +28,16 @@ public class UserDto implements Serializable{
 
     private String imageCodeToken;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public String getId() {
         return id;
     }
@@ -85,6 +95,7 @@ public class UserDto implements Serializable{
         sb.append(", password='").append(password).append('\'');
         sb.append(", imageCode='").append(imageCode).append('\'');
         sb.append(", imageCodeToken='").append(imageCodeToken).append('\'');
+        sb.append(", token='").append(token).append('\'');
         sb.append('}');
         return sb.toString();
     }
