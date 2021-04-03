@@ -8,15 +8,14 @@ import com.course.server.dto.ResourceDto;
 import com.course.server.param.ResourceParams;
 import com.course.server.service.ResourceService;
 import com.course.server.utils.CopierUtil;
-import com.course.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author 王智芳
@@ -51,11 +50,9 @@ public class ResourceController {
     }
 
     @RequestMapping("/save")
-    public Rest save(@RequestBody ResourceDto resourceDto){
+    public Rest save(@RequestBody String jsonStr){
         Rest rest = new Rest();
-        resourceDto.setId(UuidUtil.getShortUuid());
-        Resource resource = new Resource();
-        resourceService.save(CopierUtil.copyProperties(resourceDto,resource));
+        resourceService.saveJson(jsonStr);
         return rest.resultSuccess("添加资源成功");
     }
 
@@ -77,6 +74,18 @@ public class ResourceController {
         return rest.resultSuccess("删除资源成功");
     }
 
+    /**
+     * 资源树查询
+     */
+    @GetMapping("/load_tree")
+    public Rest<List<ResourceDto>> loadTree() {
+        Rest<List<ResourceDto>> rest = new Rest<>();
+        List<ResourceDto> resourceDtoList = resourceService.loadTree();
+        if(CollectionUtils.isEmpty(resourceDtoList)){
+            return rest.resultFail("数据为空");
+        }
+        return rest.resultSuccessInfo(resourceDtoList);
+    }
 
     @RequestMapping("/test")
     public String test(){
