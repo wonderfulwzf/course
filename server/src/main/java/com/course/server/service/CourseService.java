@@ -7,6 +7,7 @@ import com.course.server.domain.CourseExample;
 import com.course.server.dto.CategoryDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.SortDto;
+import com.course.server.enums.CourseStatusEnum;
 import com.course.server.mapper.CourseMapper;
 import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.param.CourseParams;
@@ -114,5 +115,16 @@ public class CourseService {
         if (sortDto.getNewSort() < sortDto.getOldSort()) {
             myCourseMapper.moveSortsBackward(sortDto);
         }
+    }
+    /**
+     * 新课列表查询，只查询已发布的，按创建日期倒序
+     */
+    public List<CourseDto> listNew(CourseParams pageDto) {
+        PageHelper.startPage((int)pageDto.getPageNo(), (int)pageDto.getPageSize());
+        CourseExample courseExample = new CourseExample();
+        courseExample.createCriteria().andStatusEqualTo(CourseStatusEnum.PUBLISH.getCode());
+        courseExample.setOrderByClause("created_at desc");
+        List<Course> courseList = courseMapper.selectByExample(courseExample);
+        return CopierUtil.copyList(courseList, CourseDto.class);
     }
 }
